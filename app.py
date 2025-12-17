@@ -15,6 +15,21 @@ THREE_YEAR_STATES = {
 }
 TWO_YEAR_STATES = {"DC","WY","RI"}
 
+# Mapping of state abbreviations to full names
+STATE_FULL_NAMES = {
+    "AK": "Alaska","AR": "Arkansas","CA": "California","CO": "Colorado",
+    "DE": "Delaware","FL": "Florida","GA": "Georgia","ID": "Idaho",
+    "IL": "Illinois","KS": "Kansas","KY": "Kentucky","LA": "Louisiana",
+    "MN": "Minnesota","MS": "Mississippi","MT": "Montana","ND": "North Dakota",
+    "NJ": "New Jersey","NM": "New Mexico","NY": "New York","OK": "Oklahoma",
+    "PA": "Pennsylvania","SC": "South Carolina","TN": "Tennessee",
+    "UT": "Utah","VA": "Virginia","WV": "West Virginia","DC": "District of Columbia",
+    "WY": "Wyoming","RI": "Rhode Island"
+}
+
+# Create a reverse mapping for dropdown selection
+state_abbr_map = {full: abbr for abbr, full in STATE_FULL_NAMES.items()}
+
 # User Inputs (MM/DD/YYYY)
 completion_date = st.date_input(
     "Certificate Completion Date",
@@ -28,14 +43,12 @@ policy_expiration = st.date_input(
     format="MM/DD/YYYY"
 )
 
-state = st.selectbox(
+# Dropdown with full state names
+state_full = st.selectbox(
     "State",
-    sorted(list(
-        THREE_YEAR_STATES
-        | TWO_YEAR_STATES
-        | {"KY","ND"}
-    ))
+    sorted(STATE_FULL_NAMES.values())
 )
+state = state_abbr_map[state_full]  # Convert back to abbreviation for calculations
 
 nd_age = None
 if state == "ND":
@@ -87,6 +100,8 @@ copyText.style.display='none';
 alert('Message copied to clipboard!');
 ">📋 Copy Message</button>
 """, height=60)
+
+
 
 
 
