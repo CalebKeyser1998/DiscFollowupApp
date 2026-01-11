@@ -38,7 +38,7 @@ completion_date = st.date_input(
 )
 
 policy_expiration = st.date_input(
-    "Policy Expiration Date",
+    "Next Policy Renewal Date",
     value=date.today(),
     format="MM/DD/YYYY"
 )
@@ -100,6 +100,7 @@ copyText.style.display='none';
 alert('Message copied to clipboard!');
 ">📋 Copy Message</button>
 """, height=60)
+
 
 
 
