@@ -30,17 +30,15 @@ STATE_FULL_NAMES = {
 # Create a reverse mapping for dropdown selection
 state_abbr_map = {full: abbr for abbr, full in STATE_FULL_NAMES.items()}
 
-# User Inputs (MM/DD/YYYY)
+# User Inputs (flexible typing: 1/1/2025 works)
 completion_date = st.date_input(
     "Certificate Completion Date",
-    value=date.today(),
-    format="MM/DD/YYYY"
+    value=date.today()
 )
 
 policy_expiration = st.date_input(
     "Next Policy Renewal Date",
-    value=date.today(),
-    format="MM/DD/YYYY"
+    value=date.today()
 )
 
 # Dropdown with full state names
@@ -81,13 +79,18 @@ disc_follow_up_date = next_renewal - relativedelta(months=3)
 
 # Display Message 
 st.markdown(
-    f"Please follow-up for a new accident prevention course certificate. The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}.<br><br>"
-    f"<span style='color:green;'>Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}</span>",
+    f"Please follow-up for a new accident prevention course certificate. "
+    f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}.<br><br>"
+    f"<span style='color:green;'>Disc Follow-Up Date: "
+    f"{disc_follow_up_date.strftime('%m/%d/%Y')}</span>",
     unsafe_allow_html=True
 )
 
 # Copy Button 
-copy_text = f"Please follow-up for a new accident prevention course certificate. The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
+copy_text = (
+    f"Please follow-up for a new accident prevention course certificate. "
+    f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
+)
 
 components.html(f"""
 <textarea id="msg" style="display:none;">{copy_text}</textarea>
@@ -100,6 +103,8 @@ copyText.style.display='none';
 alert('Message copied to clipboard!');
 ">📋 Copy Message</button>
 """, height=60)
+
+
 
 
 
