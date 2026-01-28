@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from dateutil import parser
 import streamlit.components.v1 as components
 
 # Page setup
@@ -27,34 +28,48 @@ STATE_FULL_NAMES = {
     "WY": "Wyoming","RI": "Rhode Island"
 }
 
-# Create a reverse mapping for dropdown selection
+# Reverse mapping for dropdown
 state_abbr_map = {full: abbr for abbr, full in STATE_FULL_NAMES.items()}
 
-# User Inputs (MM/DD/YYYY)
-completion_date = st.date_input(
-    "Certificate Completion Date",
-    value=date.today(),
-    format="MM/DD/YYYY"
+# --- DATE INPUTS (Flexible typing) ---
+
+completion_date_str = st.text_input(
+    "Certificate Completion Date (MM/DD/YYYY)",
+    value=date.today().strftime("%m/%d/%Y")
 )
 
-policy_expiration = st.date_input(
-    "Next Policy Renewal Date",
-    value=date.today(),
-    format="MM/DD/YYYY"
+policy_expiration_str = st.text_input(
+    "Next Policy Renewal Date (MM/DD/YYYY)",
+    value=date.today().strftime("%m/%d/%Y")
 )
 
-# Dropdown with full state names
+# Parse dates safely (force US format)
+try:
+    completion_date = parser.parse(completion_date_str, dayfirst=False).date()
+except ValueError:
+    st.error("Please enter a valid completion date (e.g., 1/2/2026)")
+    st.stop()
+
+try:
+    policy_expiration = parser.parse(policy_expiration_str, dayfirst=False).date()
+except ValueError:
+    st.error("Please enter a valid policy renewal date (e.g., 1/2/2026)")
+    st.stop()
+
+# --- STATE SELECTION ---
+
 state_full = st.selectbox(
     "State",
     sorted(STATE_FULL_NAMES.values())
 )
-state = state_abbr_map[state_full]  # Convert back to abbreviation for calculations
+state = state_abbr_map[state_full]
 
 nd_age = None
 if state == "ND":
     nd_age = st.radio("ND Age Group", ["Under 55", "55 or older"])
 
-# Determine certificate expiration in years
+# --- CERTIFICATE VALIDITY ---
+
 if state in THREE_YEAR_STATES:
     years_valid = 3
 elif state in TWO_YEAR_STATES:
@@ -66,10 +81,10 @@ elif state == "ND":
 else:
     years_valid = 3
 
-# Calculate Certificate Expiration
+# --- CALCULATIONS ---
+
 certificate_expiration = completion_date + relativedelta(years=years_valid)
 
-# Calculate Next Policy Renewal AFTER Certificate Expiration
 policy_month = policy_expiration.month
 policy_day = policy_expiration.day
 
@@ -79,15 +94,25 @@ if next_renewal <= certificate_expiration:
 
 disc_follow_up_date = next_renewal - relativedelta(months=3)
 
-# Display Message 
+# --- DISPLAY ---
+
 st.markdown(
-    f"Please follow-up for a new accident prevention course certificate. The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}.<br><br>"
-    f"<span style='color:green;'>Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}</span>",
+    f"""
+    Please follow-up for a new accident prevention course certificate.
+    The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.<br><br>
+    <span style='color:green; font-weight:bold;'>
+        Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
+    </span>
+    """,
     unsafe_allow_html=True
 )
 
-# Copy Button 
-copy_text = f"Please follow-up for a new accident prevention course certificate. The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
+# --- COPY BUTTON ---
+
+copy_text = (
+    f"Please follow-up for a new accident prevention course certificate. "
+    f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
+)
 
 components.html(f"""
 <textarea id="msg" style="display:none;">{copy_text}</textarea>
@@ -100,6 +125,7 @@ copyText.style.display='none';
 alert('Message copied to clipboard!');
 ">📋 Copy Message</button>
 """, height=60)
+
 
 
 
