@@ -32,12 +32,12 @@ state_abbr_map = {full: abbr for abbr, full in STATE_FULL_NAMES.items()}
 
 # --- DATE INPUTS (FLEXIBLE) ---
 completion_date_str = st.text_input(
-    "Certificate Completion Date (MM/DD/YYYY)",
+    "Certificate Completion Date (M/D/Y)",
     value=date.today().strftime("%m/%d/%Y")
 )
 
 policy_expiration_str = st.text_input(
-    "Next Policy Renewal Date (MM/DD/YYYY)",
+    "Next Policy Renewal Date (M/D/Y)",
     value=date.today().strftime("%m/%d/%Y")
 )
 
@@ -130,6 +130,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
