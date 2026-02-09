@@ -12,9 +12,9 @@ st.title("📅 Disc Follow-Up Date Calculator")
 THREE_YEAR_STATES = {
     "AK","AR","CA","CO","DE","FL","GA","ID","IL","KS",
     "LA","MN","MS","MT","NJ","NM","NY","OK","PA",
-    "SC","TN","UT","VA","WV"
+    "SC","TN","UT","VA","WV","CT","NV",
 }
-TWO_YEAR_STATES = {"DC","WY","RI"}
+TWO_YEAR_STATES = {"DC","WY","RI", "CT"}
 
 STATE_FULL_NAMES = {
     "AK": "Alaska","AR": "Arkansas","CA": "California","CO": "Colorado",
@@ -24,7 +24,7 @@ STATE_FULL_NAMES = {
     "NJ": "New Jersey","NM": "New Mexico","NY": "New York","OK": "Oklahoma",
     "PA": "Pennsylvania","SC": "South Carolina","TN": "Tennessee",
     "UT": "Utah","VA": "Virginia","WV": "West Virginia","DC": "District of Columbia",
-    "WY": "Wyoming","RI": "Rhode Island"
+    "WY": "Wyoming","RI": "Rhode Island","CT": "Connecticut","NV": "Nevada",
 }
 
 # Reverse mapping for dropdown
@@ -130,6 +130,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
