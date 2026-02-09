@@ -12,7 +12,7 @@ st.title("📅 Disc Follow-Up Date Calculator")
 THREE_YEAR_STATES = {
     "AK","AR","CA","CO","DE","FL","GA","ID","IL","KS",
     "LA","MN","MS","MT","NJ","NM","NY","OK","PA",
-    "SC","TN","UT","VA","WV","CT","NV",
+    "SC","TN","UT","VA","WV","NV",
 }
 TWO_YEAR_STATES = {"DC","WY","RI","CT"}
 
@@ -130,6 +130,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
