@@ -102,16 +102,17 @@ if dates_valid:
     disc_follow_up_date = next_renewal - relativedelta(months=3)
 
     # --- DISPLAY RESULTS ---
-    st.markdown(
-        f"""
-        Please follow-up for a new accident prevention course certificate.
-        The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.<br><br>
-        <span style='color:green; font-weight:bold;'>
-            Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
-        </span>
-        """,
-        unsafe_allow_html=True
-    )
+st.markdown(
+    f"""
+    Please follow-up for a new accident prevention course certificate.
+    The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.<br><br>
+
+    <span style='color:green; font-weight:bold; font-size:22px;'>
+        Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
+    </span>
+    """,
+    unsafe_allow_html=True
+)
 
     # --- COPY BUTTON ---
     copy_text = (
@@ -130,6 +131,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
