@@ -14,7 +14,7 @@ THREE_YEAR_STATES = {
     "LA","MN","MS","MT","NJ","NM","NY","OK","PA",
     "SC","TN","UT","VA","WV","CT","NV",
 }
-TWO_YEAR_STATES = {"DC","WY","RI", "CT"}
+TWO_YEAR_STATES = {"DC","WY","RI","CT"}
 
 STATE_FULL_NAMES = {
     "AK": "Alaska","AR": "Arkansas","CA": "California","CO": "Colorado",
@@ -130,6 +130,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
