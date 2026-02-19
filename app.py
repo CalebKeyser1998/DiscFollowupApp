@@ -23,14 +23,15 @@ STATE_FULL_NAMES = {
     "MN": "Minnesota","MS": "Mississippi","MT": "Montana","ND": "North Dakota",
     "NJ": "New Jersey","NM": "New Mexico","NY": "New York","OK": "Oklahoma",
     "PA": "Pennsylvania","SC": "South Carolina","TN": "Tennessee",
-    "UT": "Utah","VA": "Virginia","WV": "West Virginia","DC": "District of Columbia",
-    "WY": "Wyoming","RI": "Rhode Island","CT": "Connecticut","NV": "Nevada",
+    "UT": "Utah","VA": "Virginia","WV": "West Virginia",
+    "DC": "District of Columbia","WY": "Wyoming",
+    "RI": "Rhode Island","CT": "Connecticut","NV": "Nevada",
 }
 
 # Reverse mapping for dropdown
 state_abbr_map = {full: abbr for abbr, full in STATE_FULL_NAMES.items()}
 
-# --- DATE INPUTS (FLEXIBLE) ---
+# --- DATE INPUTS ---
 completion_date_str = st.text_input(
     "Certificate Completion Date (M/D/Y)",
     value=date.today().strftime("%m/%d/%Y")
@@ -41,9 +42,8 @@ policy_expiration_str = st.text_input(
     value=date.today().strftime("%m/%d/%Y")
 )
 
-# --- DATE PARSING FUNCTION ---
+# --- DATE PARSING ---
 def parse_us_date(date_str):
-    """Parse a US-style date string and return a date object or None if invalid."""
     try:
         return parser.parse(date_str, dayfirst=False).date()
     except Exception:
@@ -52,7 +52,6 @@ def parse_us_date(date_str):
 completion_date = parse_us_date(completion_date_str)
 policy_expiration = parse_us_date(policy_expiration_str)
 
-# Validation flag
 dates_valid = True
 
 if not completion_date:
@@ -63,7 +62,7 @@ if not policy_expiration:
     st.error("Please enter a valid policy renewal date (e.g., 1/2/2026)")
     dates_valid = False
 
-# --- STATE SELECTION (ALWAYS VISIBLE) ---
+# --- STATE SELECTION ---
 state_full = st.selectbox(
     "State",
     sorted(STATE_FULL_NAMES.values())
@@ -74,8 +73,9 @@ nd_age = None
 if state == "ND":
     nd_age = st.radio("ND Age Group", ["Under 55", "55 or older"])
 
-# --- CALCULATIONS (ONLY IF DATES ARE VALID) ---
+# --- CALCULATIONS + DISPLAY ---
 if dates_valid:
+
     # Determine certificate validity
     if state in THREE_YEAR_STATES:
         years_valid = 3
@@ -91,43 +91,32 @@ if dates_valid:
     # Certificate expiration
     certificate_expiration = completion_date + relativedelta(years=years_valid)
 
-    # Next policy renewal after expiration
+    # Next renewal after expiration
     policy_month = policy_expiration.month
     policy_day = policy_expiration.day
     next_renewal = date(certificate_expiration.year, policy_month, policy_day)
+
     if next_renewal <= certificate_expiration:
         next_renewal = date(certificate_expiration.year + 1, policy_month, policy_day)
 
     # Disc follow-up date
     disc_follow_up_date = next_renewal - relativedelta(months=3)
 
-# --- DISPLAY TOP TEXT ---
-st.markdown(
-    f"""
-    Please follow-up for a new accident prevention course certificate.
-    The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.
-    """,
-    unsafe_allow_html=True
-)
+    # --- DISPLAY TOP TEXT ---
+    st.markdown(
+        f"""
+        Please follow-up for a new accident prevention course certificate.
+        The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.
+        """
+    )
 
-# --- COPY BUTTON ---
-copy_text = (
-    f"Please follow-up for a new accident prevention course certificate. "
-    f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
-)
+    # --- COPY TEXT ---
+    copy_text = (
+        f"Please follow-up for a new accident prevention course certificate. "
+        f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
+    )
 
-st_copy_to_clipboard(copy_text, "Copy Follow-Up Message")
-
-# --- GREEN FOLLOW-UP DATE ---
-st.markdown(
-    f"""
-    <span style='color:green; font-weight:bold; font-size:30px;'>
-        Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
-    </span>
-    """,
-    unsafe_allow_html=True
-)
-
+    # --- COPY BUTTON ---
     components.html(f"""
     <textarea id="msg" style="display:none;">{copy_text}</textarea>
     <button onclick="
@@ -137,8 +126,21 @@ st.markdown(
     document.execCommand('copy');
     copyText.style.display='none';
     alert('Message copied to clipboard!');
-    ">📋 Copy Message</button>
+    ">
+    📋 Copy Message
+    </button>
     """, height=60)
+
+    # --- GREEN FOLLOW-UP DATE ---
+    st.markdown(
+        f"""
+        <span style='color:green; font-weight:bold; font-size:30px;'>
+            Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
+        </span>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 
 
