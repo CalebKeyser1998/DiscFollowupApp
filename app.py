@@ -107,7 +107,7 @@ if dates_valid:
         Please follow-up for a new accident prevention course certificate.
         The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.<br><br>
 
-        <span style='color:green; font-weight:bold; font-size:22px;'>
+        <span style='color:green; font-weight:bold; font-size:28px;'>
             Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
         </span>
         """,
@@ -131,6 +131,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
