@@ -101,24 +101,32 @@ if dates_valid:
     # Disc follow-up date
     disc_follow_up_date = next_renewal - relativedelta(months=3)
 
-    # --- DISPLAY RESULTS ---
-    st.markdown(
-        f"""
-        Please follow-up for a new accident prevention course certificate.
-        The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.<br><br>
+# --- DISPLAY TOP TEXT ---
+st.markdown(
+    f"""
+    Please follow-up for a new accident prevention course certificate.
+    The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.
+    """,
+    unsafe_allow_html=True
+)
 
-        <span style='color:green; font-weight:bold; font-size:30px;'>
-            Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
-        </span>
-        """,
-        unsafe_allow_html=True
-    )
+# --- COPY BUTTON ---
+copy_text = (
+    f"Please follow-up for a new accident prevention course certificate. "
+    f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
+)
 
-    # --- COPY BUTTON ---
-    copy_text = (
-        f"Please follow-up for a new accident prevention course certificate. "
-        f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
-    )
+st_copy_to_clipboard(copy_text, "Copy Follow-Up Message")
+
+# --- GREEN FOLLOW-UP DATE ---
+st.markdown(
+    f"""
+    <span style='color:green; font-weight:bold; font-size:30px;'>
+        Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
+    </span>
+    """,
+    unsafe_allow_html=True
+)
 
     components.html(f"""
     <textarea id="msg" style="display:none;">{copy_text}</textarea>
@@ -131,6 +139,7 @@ if dates_valid:
     alert('Message copied to clipboard!');
     ">📋 Copy Message</button>
     """, height=60)
+
 
 
 
