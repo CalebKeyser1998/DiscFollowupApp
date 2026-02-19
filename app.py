@@ -106,6 +106,12 @@ if dates_valid:
         f"""
         Please follow-up for a new accident prevention course certificate.
         The current certificate expires **{certificate_expiration.strftime('%m/%d/%Y')}**.<br><br>
+
+        <span style='color:green; font-weight:bold; font-size:30px;'>
+            Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
+        </span>
+        """,
+        unsafe_allow_html=True
     )
 
     # --- COPY BUTTON ---
@@ -113,13 +119,6 @@ if dates_valid:
         f"Please follow-up for a new accident prevention course certificate. "
         f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
     )
-     
-
-        <span style='color:green; font-weight:bold; font-size:30px;'>
-            Disc Follow-Up Date: {disc_follow_up_date.strftime('%m/%d/%Y')}
-        </span>
-        """,
-        unsafe_allow_html=True
 
     components.html(f"""
     <textarea id="msg" style="display:none;">{copy_text}</textarea>
