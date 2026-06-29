@@ -4,11 +4,11 @@ from dateutil.relativedelta import relativedelta
 from dateutil import parser
 import streamlit.components.v1 as components
 
-# --- PAGE SETUP ---
+#PAGE SETUP 
 st.set_page_config(page_title="Disc Follow-Up Calculator", layout="centered")
 st.title("📅 Disc Follow-Up Date Calculator")
 
-# --- STATE RULES ---
+#STATE RULES
 THREE_YEAR_STATES = {
     "AK","AR","CA","CO","DE","FL","GA","ID","IL","KS",
     "LA","MN","MS","MT","NJ","NM","NY","OK","PA",
@@ -31,7 +31,7 @@ STATE_FULL_NAMES = {
 # Reverse mapping for dropdown
 state_abbr_map = {full: abbr for abbr, full in STATE_FULL_NAMES.items()}
 
-# --- DATE INPUTS ---
+# DATE INPUTS
 completion_date_str = st.text_input(
     "Certificate Completion Date (M/D/Y)",
     value=date.today().strftime("%m/%d/%Y")
@@ -42,7 +42,7 @@ policy_expiration_str = st.text_input(
     value=date.today().strftime("%m/%d/%Y")
 )
 
-# --- DATE PARSING ---
+# DATE PARSING
 def parse_us_date(date_str):
     try:
         return parser.parse(date_str, dayfirst=False).date()
@@ -62,7 +62,7 @@ if not policy_expiration:
     st.error("Please enter a valid policy renewal date (e.g., 1/2/2026)")
     dates_valid = False
 
-# --- STATE SELECTION ---
+#STATE SELECTION
 state_full = st.selectbox(
     "State",
     sorted(STATE_FULL_NAMES.values())
@@ -73,7 +73,7 @@ nd_age = None
 if state == "ND":
     nd_age = st.radio("ND Age Group", ["Under 55", "55 or older"])
 
-# --- CALCULATIONS + DISPLAY ---
+#  CALCULATIONS + DISPLAY
 if dates_valid:
 
     # Determine certificate validity
@@ -102,7 +102,7 @@ if dates_valid:
     # Disc follow-up date
     disc_follow_up_date = next_renewal - relativedelta(months=3)
 
-    # --- DISPLAY TOP TEXT ---
+    # DISPLAY TOP TEXT
     st.markdown(
         f"""
         Please follow-up for a new accident prevention course certificate.
@@ -110,13 +110,13 @@ if dates_valid:
         """
     )
 
-    # --- COPY TEXT ---
+    # COPY TEXT
     copy_text = (
         f"Please follow-up for a new accident prevention course certificate. "
         f"The current certificate expires {certificate_expiration.strftime('%m/%d/%Y')}."
     )
 
-    # --- COPY BUTTON ---
+    #COPY BUTTON 
     components.html(f"""
     <textarea id="msg" style="display:none;">{copy_text}</textarea>
     <button onclick="
@@ -131,7 +131,7 @@ if dates_valid:
     </button>
     """, height=60)
 
-    # --- GREEN FOLLOW-UP DATE ---
+    # GREEN FOLLOW-UP DATE
     st.markdown(
         f"""
         <span style='color:green; font-weight:bold; font-size:30px;'>
