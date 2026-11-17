@@ -12,7 +12,7 @@ st.title("📅 Disc Follow-Up Date Calculator")
 THREE_YEAR_STATES = {
     "AK","AR","CA","CO","DE","FL","GA","ID","IL","KS",
     "LA","MN","MS","MT","NJ","NM","NY","OK","PA",
-    "SC","TN","UT","VA","WV","NV",
+    "SC","TN","UT","VA","WV","NV", "OH" , 
 }
 TWO_YEAR_STATES = {"DC","WY","RI","CT"}
 
@@ -25,7 +25,7 @@ STATE_FULL_NAMES = {
     "PA": "Pennsylvania","SC": "South Carolina","TN": "Tennessee",
     "UT": "Utah","VA": "Virginia","WV": "West Virginia",
     "DC": "District of Columbia","WY": "Wyoming",
-    "RI": "Rhode Island","CT": "Connecticut","NV": "Nevada",
+    "RI": "Rhode Island","CT": "Connecticut","NV": "Nevada", "OH": "Ohio",
 }
 
 # Reverse mapping for dropdown
